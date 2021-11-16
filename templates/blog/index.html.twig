@@ -1,0 +1,11 @@
+{# templates/blog/index.html.twig #}
+
+{% extends 'blog/blogBase.html.twig' %}
+
+{% block titulo %}
+	Portada -
+	{{parent()}}
+{% endblock %}
+{% block contenido %}
+	<h1>Esta es la portada</h1>
+{% endblock %}

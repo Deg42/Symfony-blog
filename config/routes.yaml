@@ -1,0 +1,13 @@
+index:
+  path: /
+  controller: App\Controller\BlogController::index
+
+verNoticia:
+    path: /noticia/{id}
+    controller: App\Controller\BlogController::verNoticia
+    requirements:
+        id: '\d+'
+
+nuevaNoticia:
+    path: /noticia/nueva
+    controller: App\Controller\BlogController::nuevaNoticia

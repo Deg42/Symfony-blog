@@ -1,0 +1,40 @@
+{# templates/blog/blogBase.html.twig #}
+
+<!DOCTYPE html>
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>
+			{% block titulo %}
+				Symfony HackBlog
+			{% endblock %}
+		</title>
+
+		{% block stylesheets %}
+			<link href="{{ asset('css/style.css') }}" rel="stylesheet"/>
+		{% endblock %}
+	</head>
+
+	<body>
+		<header>
+			<h1>
+				<a href="{{ path('index') }}">The Hack blog</a>
+			</h1>
+		</header>
+		<div id="container">
+			<div id="main"> 
+			{% block contenido %}{% endblock %}
+			</div>
+		</div>
+		<footer>
+				Copyright ©
+				<?php date("Y")?>
+				<span>
+					<a href='{{ path('index') }}'>The Hack Blog</a>
+				</span>
+		</footer>
+		{% block script %}
+		{% endblock %}
+	</body>
+</html>

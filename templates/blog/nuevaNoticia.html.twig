@@ -1,0 +1,23 @@
+{# templates/blog/noticia.html.twig #}
+
+{% extends 'blog/blogBase.html.twig' %}
+
+
+{% block titulo %}
+	Crear Noticia -
+	{{parent()}}
+{% endblock %}
+
+{% block contenido %}
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	{{ form_end(form) }}
+{% endblock %}
+
+{% block script %}
+	{{parent()}}
+	<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+	<script>
+		tinymce.init({selector: 'textarea'});
+	</script>
+{% endblock %}
