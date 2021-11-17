@@ -6,6 +6,19 @@
 	Portada -
 	{{parent()}}
 {% endblock %}
+
 {% block contenido %}
-	<h1>Esta es la portada</h1>
+	<h1>Noticias</h1>
+
+	{% for noticia in noticias %}
+		<h2>
+			<a href="{{ path('verNoticia', {'id': noticia.id}) }}">
+				{{ noticia.titulo }}
+			</a>
+		</h2>
+		<p>{{ noticia.entradilla|raw }}</p>
+	{% else %}
+		<p>No hay noticias</p>
+	{% endfor %}
+
 {% endblock %}

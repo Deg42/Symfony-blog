@@ -11,3 +11,7 @@ verNoticia:
 nuevaNoticia:
     path: /noticia/nueva
     controller: App\Controller\BlogController::nuevaNoticia
+
+noticiaCreada:
+    path: /apuesta/creada
+    controller: App\Controller\BlogController::noticiaCreada
