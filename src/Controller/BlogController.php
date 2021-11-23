@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Noticia;
+use DateTime;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -37,7 +38,7 @@ class BlogController extends AbstractController
            buscamos en el usando la id de la noticia */
         $noticia = $entityManager->getRepository(Noticia::class)->find($id);
 
-        // Si la apuesta no existe lanzamos una excepción.
+        // Si la noticia no existe lanzamos una excepción.
         if (!$noticia) {
             throw $this->createNotFoundException(
                 'No existe ninguna noticia con id ' . $id
@@ -67,8 +68,9 @@ class BlogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // De esta manera podemos rellenar la variable
-            // $noticia con los datos del formulario.
+            // $noticia con los datos del formulario y la fecha actual.
             $noticia = $form->getData();
+            $noticia->setFecha(new \DateTime('now'));
 
             // Obtenemos el gestor de entidades de Doctrine
             $entityManager = $this->getDoctrine()->getManager();
@@ -93,6 +95,70 @@ class BlogController extends AbstractController
     public function noticiaCreada()
     {
         return $this->render('blog/noticiaCreada.html.twig');
+    }
+
+    public function editarNoticia(Request $request, $id)
+    {
+        // Obtenemos el gestor de entidades de Doctrine
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // Obtenenemos el repositorio de Apuestas y buscamos en el usando la id de la apuesta
+        $noticia = $entityManager->getRepository(Noticia::class)->find($id);
+
+        // Si la apuesta no existe lanzamos una excepción.
+        if (!$noticia){
+            throw $this->createNotFoundException(
+                'No existe noticia apuesta con id '.$id
+            );
+        }
+
+        // Creamos el formulario a partir de $noticia
+        $form = $this->createFormBuilder($noticia)
+        ->add('titulo', TextType::class)
+        ->add('entradilla', TextareaType::class, array('required' => false))
+        ->add('cuerpo', TextareaType::class, array('required' => false))
+        ->add(
+            'save',
+            SubmitType::class,
+            array('label' => 'Editar Noticia')
+        )
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // De esta manera podemos sobreescribir la variable $noticia con los datos del formulario.
+            $noticia = $form->getData();
+
+            // Ejecuta las consultas necesarias (UPDATE en este caso)
+            $entityManager->flush();
+
+            //Redirigimos a la página de ver la noticia editada.
+            return $this->redirectToRoute('noticiaCreada', array('id'=>$id));
+        }
+
+        return $this->render('blog/nuevaNoticia.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    public function borrarNoticia($id)
+    {
+        // Obtenemos el gestor de entidades de Doctrine
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // Obtenenemos el repositorio de Noticias y buscamos en el usando la id de la noticia
+        $noticia= $entityManager->getRepository(Noticia::class)->find($id);
+
+        // Si la noticia no existe lanzamos una excepción.
+        if (!$noticia){
+            throw $this->createNotFoundException(
+                'No existe ninguna noticia con id '.$id
+            );
+        }
+        $entityManager->remove($noticia);
+        $entityManager->flush();
+        return $this->render('blog/noticiaBorrada.html.twig');
     }
 
 }

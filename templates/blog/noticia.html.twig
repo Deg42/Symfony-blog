@@ -7,6 +7,16 @@
 	{{parent()}}
 {% endblock %}
 {% block contenido %}
+	<p class="small">
+		<a href="{{path('index')}}">← Volver a portada</a>
+	</p>
+	
 	<h2>{{noticia.titulo}}</h2>
+	<p class="small">Publicado en:
+		{{noticia.fecha|date('Y-m-d H:i:s')}}</p>
+	<div id="imgcover"><img src='{{ asset("images/cover-" ~ noticia.id ~ ".jpg") }}'></div>
+
 	<p>{{noticia.cuerpo|raw}}</p>
+	<h4><a style="color:darkblue" href="{{ path('noticiaEditar', {'id' : noticia.id}) }}">Editar Noticia</a></h4>
+	<h4><a style="color:red" href="{{ path('noticiaBorrar', {'id' : noticia.id}) }}">Borrar Noticia</a></h4>
 {% endblock %}

@@ -32,6 +32,11 @@ class Noticia
      */
     private $titulo;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $fecha;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Noticia
     public function setTitulo(string $titulo): self
     {
         $this->titulo = $titulo;
+
+        return $this;
+    }
+
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(\DateTimeInterface $fecha): self
+    {
+        $this->fecha = $fecha;
 
         return $this;
     }

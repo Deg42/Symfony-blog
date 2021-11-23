@@ -8,17 +8,24 @@
 {% endblock %}
 
 {% block contenido %}
-	<h1>Noticias</h1>
+	<h2>Últimas entradas</h2>
+	<ul class="listaNoticias">
+		{% for noticia in noticias %}
+			<li class="bloqueNoticia">
+				<img src='{{ asset("images/thumbnail-" ~ noticia.id ~ ".jpg") }}' />
+				<h3>
+					<a href="{{ path('verNoticia', {'id': noticia.id}) }}">
+						{{ noticia.titulo }}</a>
+				</h3>
 
-	{% for noticia in noticias %}
-		<h2>
-			<a href="{{ path('verNoticia', {'id': noticia.id}) }}">
-				{{ noticia.titulo }}
-			</a>
-		</h2>
-		<p>{{ noticia.entradilla|raw }}</p>
-	{% else %}
-		<p>No hay noticias</p>
-	{% endfor %}
-
-{% endblock %}
+				<p>{{ noticia.entradilla|raw }}</p>
+				<a href="{{ path('verNoticia', {'id': noticia.id}) }}">Leer más</a>
+				<p>Publicada en:
+					{{noticia.fecha|date('Y-m-d H:i:s') }}. (0) comentarios.</p>
+			</li>
+		{% else %}
+			<p>No hay noticias</p>
+		{% endfor %}
+		<ul/>
+		<h3><a href="{{ path('nuevaNoticia') }}">Añadir Noticia</a></h3>
+	{% endblock %}

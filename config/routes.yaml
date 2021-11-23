@@ -13,5 +13,13 @@ nuevaNoticia:
     controller: App\Controller\BlogController::nuevaNoticia
 
 noticiaCreada:
-    path: /apuesta/creada
+    path: /noticia/creada
     controller: App\Controller\BlogController::noticiaCreada
+
+noticiaEditar:
+    path: /noticia/editar/{id}
+    controller: App\Controller\BlogController::editarNoticia
+
+noticiaBorrar:
+    path: /apuesta/borrar/{id}
+    controller: App\Controller\BlogController::borrarNoticia
